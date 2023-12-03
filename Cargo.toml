@@ -6,4 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+common_macros = "0.1.1"
+cute = "0.3.0"
 termimad = "0.26.1"
