@@ -1,6 +1,8 @@
 use common_macros::hash_map;
 use cute::c;
 use std::collections::HashMap;
+use regex::Regex;
+use once_cell::sync::Lazy;
 use termimad::crossterm::style::Color::*;
 use termimad::gray;
 use termimad::minimad::TextTemplate;
@@ -9,6 +11,7 @@ use termimad::MadSkin;
 static DESCRIPTION: &str = include_str!("day_01.md");
 static EXAMPLE: &str = include_str!("example_01.txt");
 static INPUT: &str = include_str!("input_01.txt");
+static REGEX_DAY_1: &str = r"[1-9]";
 const CALIBRATIONS: [u32; 4] = [12, 38, 15, 77];
 const SUM: u32 = 142;
 
@@ -58,12 +61,22 @@ where
     first
 }
 
+fn first_and_last_numbers(line: &str) -> Result<(u32, u32), &'static str> {
+	static RE: Lazy<Regex> = Lazy::new(|| Regex::new(REGEX_DAY_1).unwrap());
+	let numbers = RE.captures(line).unwrap();
+
+	// TODO get the first and last match and return them
+	Ok((1,1))
+}
+
 fn day_one(calibration_doc: &str) -> u32 {
     let mut all_cal: Vec<u32> = vec![];
     for line in calibration_doc.lines() {
-        let first = first_number(line.chars()).unwrap();
-        let last = first_number(line.chars().rev()).unwrap();
-        let cal_string: String = [first, last].iter().collect();
+        // let first = first_number(line.chars()).unwrap();
+        // let last = first_number(line.chars().rev()).unwrap();
+        let (first, last) = first_and_last_numbers(line).unwrap();
+        // let cal_string: String = [first, last].iter().collect();
+        let cal_string = format!("{first}{last}");
         all_cal.push(u32::from_str_radix(&cal_string, 10).unwrap())
     }
 
